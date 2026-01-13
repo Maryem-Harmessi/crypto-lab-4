@@ -39,14 +39,11 @@ except InvalidSignature:
     print("SPK signature failed")
     raise
 
-print("Signed prekey generated")
-
 # Generate one time prekeys 
 opk_num=4 
-opk_private_keys = []
 opk_public_bytes_list = []
 
-for i in range(opk_num-1):
+for i in range(opk_num):
     opk_private = ed25519.Ed25519PrivateKey.generate()
     opk_public = opk_private.public_key()
     opk_public_bytes = opk_public.public_bytes(
@@ -67,7 +64,4 @@ bundle = {
 with open("prekey_bundle.json", "w", encoding="utf-8") as f:
     json.dump(bundle, f, indent=2)
 
-opk_private_keys.append(opk_private)
-opk_public_bytes_list.append(opk_public_bytes)
-
-print(f"OPKs generated: {len(opk_public_bytes_list)}")
+print("Prekey bundle exported.")
