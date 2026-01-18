@@ -1,0 +1,17 @@
+{
+  "bob_bundle": {
+    "IK_pub": "NVGioGDB4RNykJkTwuTfI6hsVJlc2sFU4d9y46abg1k=",
+    "SPK_pub": "//cRR+pz4PIuCruGx4SkpmFLSYMxGjW1iA+wDjghdno=",
+    "SPK_sig": "OXJVE827xI2Q7NdP+XNl3UoJefwE8g107FXLnq9ahKbwEu2JT+jtm0lGFyFzkuhbpoYuaVp+qFYj2aIUgdDTBw==",
+    "OPK_pub_list": [
+      "ARM/UX+bz+1k26E4jnDAJOnjntUXCUWHWSdqk/qtehQ=",
+      "EFsPE1fds/cGUekrYgtdodsWyRyY7xlzRYucHE8zxxg=",
+      "DbzTsIcCJYhRjSOSVeWKCVs3kNiP/JWT5J1W1JLSwwM=",
+      "eo6iRcqLq7nNvoNJD8HbnT7gI1CuxshvXczIhZaCrgQ="
+    ]
+  },
+  "alice_pub": {
+    "alice_ik_pub": "asVhVbC3YAVDgje+/6/iWWHTdK44pZpPWzWxrKkI8VU=",
+    "alice_ek_pub": "YcKNC5wFMKVJl6QKuLsErbBYzSP060YYjikEVupfmVk="
+  }
+}

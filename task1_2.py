@@ -7,6 +7,7 @@ import json
 import base64
 import hashlib
 
+
 # Helpers
 def b64e(b: bytes) -> str:
     return base64.b64encode(b).decode("utf-8")
@@ -21,7 +22,6 @@ def hkdf_derive(key_material: bytes, length: int, info: bytes, salt: bytes | Non
     ).derive(key_material)
 def fp(x: bytes) -> str:
     return hashlib.sha256(x).hexdigest()
-
 
 # BOB Generate Keys
 # Signing identity (Ed25519) for SPK signature
@@ -89,10 +89,6 @@ print("Prekey bundle exported.")
 
 
 # ALICE 
-# Load bundle 
-with open("prekey_bundle.json", "r", encoding="utf-8") as f:
-    bundle = json.load(f)
-
 bob_ik_pub_bytes  = b64d(bundle["IK_pub"])
 bob_spk_pub_bytes = b64d(bundle["SPK_pub"])
 bob_opk_pub_bytes = b64d(bundle["OPK_pub_list"][0])
@@ -160,6 +156,41 @@ assert mk_a == mk_b, "MK mismatch"
 
 print("\nSUCCESS: Both sides derived identical RK/CK/MK.")
 
+def x25519_priv_to_b64(key: x25519.X25519PrivateKey) -> str:
+    return b64e(key.private_bytes(
+        encoding=serialization.Encoding.Raw,
+        format=serialization.PrivateFormat.Raw,
+        encryption_algorithm=serialization.NoEncryption()
+    ))
 
+def ed25519_priv_to_b64(key: ed25519.Ed25519PrivateKey) -> str:
+    return b64e(key.private_bytes(
+        encoding=serialization.Encoding.Raw,
+        format=serialization.PrivateFormat.Raw,
+        encryption_algorithm=serialization.NoEncryption()
+    ))
 
+bob_secret = {
+    "ik_private": x25519_priv_to_b64(ik_private),
+    "spk_private": x25519_priv_to_b64(spk_private),
+    "opk0_private": x25519_priv_to_b64(opk_private_keys[0]),
+    "ik_sign_private": ed25519_priv_to_b64(ik_sign_private),
+}
 
+with open("bob_keys.json", "w", encoding="utf-8") as f:
+    json.dump(bob_secret, f, indent=2)
+
+print("Exported bob_keys.json (PRIVATE)")
+
+handshake_public = {
+    "bob_bundle": bundle,  
+    "alice_pub": {
+        "alice_ik_pub": b64e(alice_ik_pub_bytes),
+        "alice_ek_pub": b64e(alice_ek_pub_bytes),
+    }
+}
+
+with open("handshake_public.json", "w", encoding="utf-8") as f:
+    json.dump(handshake_public, f, indent=2)
+
+print("Exported handshake_public.json (PUBLIC)")
